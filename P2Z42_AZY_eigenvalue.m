@@ -28,9 +28,9 @@ while it <= maxIt && err > tol
     xp = x/norm(x,2);
     y = linsolve(L,P*xp);
     x = linsolve(U,y);
-    resNew = x'*A2*x/(x'*x);
-    resNew = resNew + miu;
-    err = abs(resNew - res);
+    resNew = x'*A*x/(x'*x);
+%     resNew = resNew + miu;
+    err = abs(resNew - res)/abs(resNew);
     res = resNew;
     it = it+1;
 end
