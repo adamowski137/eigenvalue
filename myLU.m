@@ -22,13 +22,15 @@ for i = 1:n-1
     % znalezienie indeksu najwiekszego elementu
     [~,ind] = max(abs(U(i,i:end)));
     % pivoting
-    if ind ~= i
+    if ind ~= 1
         % zamiana elementu wiodącego poprzez zamiane rzędów
         buf = U(:, i);
         U(:,i) = U(:, i+ind-1);
         U(:,i+ind-1) = buf;
         % wpisanie permutacji do wektora permutacji
-        P(i) = ind; 
+        temp = P(i);
+        P(i) = ind;
+        P(ind) = temp;
         % zamiana elementu wiodącego poprzez zamiane rzędów
         buf = L(i+ind:n, i);
         L(i+ind:n,i) = L(i+ind:n, i+ind-1);
