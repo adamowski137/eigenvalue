@@ -1,20 +1,19 @@
-clear;
-close all;
-
+function [] = test1()
 n = 3;
 maxIt = 1000;
-err = 1e-10;
-miu = -70 + i;
+tol = 1e-5;
+miu = -70+1i;
 
 start = "Test 1\n" + ...
     "Test ten sprawdza poprawność metody dla kilku wybranych\n" + ...
-    "macierzy.\n\n" + ...
+    "nieosobliwych macierzy.\n\n" + ...
     "Maksymalna liczba iteracji = %d\n" + ...
     "Maksymalny dopuszczalny błąd = %d\n" + ...
-    "Wielkość macierzy = %d\n" + ...
-    "Miu = %d %+di\n\n";
+    "Miu = %d %+di\n" + ...
+    "Jeżeli liczba iteracji jest większa niż maxIt wynik może\n" + ...
+    "być błędny\n";
 
-fprintf(start, maxIt, err, n, real(miu), imag(miu));
+fprintf(start, maxIt, tol, real(miu), imag(miu));
 pause;
 
 
@@ -22,26 +21,27 @@ k = 3;
 A = cell(k,1);
 A{1} = eye(n)*7;
 A{2} = [1i, 1i, 12i;
-        -i, -i, 1;
-        -12i, -1, i];
-A{3} = ones(n);
-trueRes = [7, -12+1i, 0]; 
+    -1i, -1i, 1;
+    -12i, -1, 1i];
+A{3} = [1, 0 , 0;
+    0, 10, 0;
+    0, 0, 20];
+trueRes = [7, -12+1i, 1];
 for i = 1:k
     fprintf("Macierz:\n");
     disp(A{i});
-    [res, it, err] = P2Z42_AZY_eigenvalue(A{i},miu,err,maxIt);
+    [res, it, err] = P2Z42_AZY_eigenvalue(A{i},miu,tol,maxIt);
     t =  sprintf("%d",abs(res - trueRes(i)));
-    if it > maxIt
-        t = "błąd";
-    end
     fprintf("==========================================================" + ...
-    "===============\n");
+        "===============\n");
     fprintf("│wyznaczona wartość%*s│błąd wyniku%*s│błąd przybliżeń%*s" + ...
         "│liczba iteracji%*s│\n", 4,"", 2,"", 0,"", 0, "");
     fprintf("===========================================================" + ...
         "==============\n");
     fprintf("│%-+10f%-+10fi │%-13s│%-15d│%-15d│\n", real(res), imag(res), t, err, it);
-        fprintf("===========================================================" + ...
+    fprintf("===========================================================" + ...
         "==============\n\n");
-    
+    pause;
+
 end
+end% function
