@@ -50,7 +50,7 @@ while it <= maxIt && err > tol
     it = it+1;
 end
 
-% wyliczenie wyniku przybliżenia l wartości własnej
+% wyliczenie wyniku przybliżenia wartości własnej
     res = x'*A*x;
 end % function
 
