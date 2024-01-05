@@ -12,39 +12,52 @@ function [P, L, U] = myLU(A)
 %   P - Wynikowy wektor permutacji .
 
 % deklaracja potrzebnych zmiennych
-n = size(A,1);
+m = size(A, 1);
+
+P = 1:m;
+L = eye(m);
 U = A;
-P = (1:n)';
-L = eye(size(A)) + 0i;
 
-% pętla iteracyjna
-for i = 1:n-1
-    % znalezienie indeksu najwiekszego elementu
-    [~,ind] = max(abs(U(i,i:end)));
-    % pivoting
-    if ind ~= 1
-        % zamiana elementu wiodącego poprzez zamiane rzędów
-        buf = U(:, i);
-        U(:,i) = U(:, i+ind-1);
-        U(:,i+ind-1) = buf;
-        % wpisanie permutacji do wektora permutacji
-        temp = P(i);
-        P(i) = ind;
-        P(ind) = temp;
-        % zamiana elementu wiodącego poprzez zamiane rzędów
-        buf = L(i+ind:n, i);
-        L(i+ind:n,i) = L(i+ind:n, i+ind-1);
-        L(i+ind:n,i+ind-1) = buf;
+for x = 1:m
+    pivotRow = x;
+    
+    % znalezienie elementu wiodącego
+    for y = x + 1:m
+        if abs(U(y, x)) > abs(U(pivotRow, x))
+            pivotRow = y;
+        end
     end
-    % wyznaczenie wektora współczynników do macierzy L
-    alpha = (U(i+1:end,i)./U(i,i));
-    L(i+1:end,i) = alpha;
-    x = alpha*U(i,i:end);
-    t = U(i+1:end, i:end);
-    % eliminacja elementów w i-tej kolumnie
-    U(i+1:end, i:end) = t - x;
-end
+    
+    % jeżeli wszystkie rzędy mają 0 w x-tej kolumnie to idziemy dalej
+    if U(pivotRow, x) == 0
+        continue;
+    end
+    
+    % jeżeli element maksymalny leży na diagonali to nie ma potrzeby robić
+    % pivotingu
+    if pivotRow ~= x
+        % zamieniamy rząd x-ty z rzędem który posiada maksymalny element
+        U([x, pivotRow], :) = U([pivotRow, x], :);
+         P([x, pivotRow]) = P([pivotRow, x]);
 
+        % zamieniamy rzędy w macierzy L ale ponieważ macierz jest 
+        % dolno-trójkątna to interesują nas elementy poniżej diagonali 
+        L([x, pivotRow], 1:x-1) = L([pivotRow, x], 1:x-1);
+    end
+    
+    % po wykonaniu potrzebnych zamian przechodzimy do eliminacji
+    y = (x + 1):m;
+    currentValues = U(y, x);
+    pivot = U(x, x);
+    % obliczmy współczynnik eliminacji
+    pivotFactors = currentValues / pivot;
+    % eliminujemy elementy
+    U(y, x) = 0;
+    % aktualizujemy pozostałe
+    U(y, x+1:m) = U(y, x+1:m) - (pivotFactors * U(x, x+1:m));
+    % wpisujemy współczynniki do macierzy L
+    L(y, x) = pivotFactors;
+end
 
 end % function
 

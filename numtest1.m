@@ -26,9 +26,9 @@ fprintf(start, n, maxIt, tol, n);
 fprintf("trwa liczenie :) \n");
 
 for i = 1 : k
-    [res(1,i), it(1,i), err(1,i)] = P2Z42_AZY_eigenvalue(A{1}, miu, tol, maxIt);
-    [res(2,i), it(2,i), err(2,i)] = P2Z42_AZY_eigenvalue(A{2}, miu, tol, maxIt);
-    [res(3,i), it(3,i), err(3,i)] = P2Z42_AZY_eigenvalue(A{3}, miu, tol, maxIt);
+    [res(1,i), it(1,i), err(1,i)] = P2Z10_AZY_eigenvalue(A{1}, miu, tol, maxIt);
+    [res(2,i), it(2,i), err(2,i)] = P2Z10_AZY_eigenvalue(A{2}, miu, tol, maxIt);
+    [res(3,i), it(3,i), err(3,i)] = P2Z10_AZY_eigenvalue(A{3}, miu, tol, maxIt);
     dist(1,i) = abs(miu - res(1,i));
     dist(2,i) = abs(miu - res(2,i));
     dist(3,i) = abs(miu - res(3,i));

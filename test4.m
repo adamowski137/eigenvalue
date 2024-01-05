@@ -25,7 +25,7 @@ fprintf("==========================================================" + ...
 for i = 1:k
     n = randi(max, 1);
     A  = (rand(n)*max - max/2) + (rand(n)*max - max/2)*1i;
-    [res, it, err] = P2Z42_AZY_eigenvalue(A,miu,tol,maxIt);
+    [res, it, err] = P2Z10_AZY_eigenvalue(A,miu,tol,maxIt);
 
     fprintf("│%-+10f%-+10fi│%-15d│%-15d│%-2d│\n", ...
         real(res), imag(res), err, it, n);

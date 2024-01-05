@@ -6,7 +6,8 @@ miu = -10;
 
 start = "Test 2\n" + ...
     "Test ten sprawdza poprawność metody dla kilku\n" + ...
-    "wybranych macierzy osobliwych.\n\n" + ...
+    "wybranych macierzy o małej róznicy\n" + ...
+    "między wartościami własnymi.\n\n" + ...
     "Maksymalna liczba iteracji = %d\n" + ...
     "Maksymalny dopuszczalny błąd = %d\n" + ...
     "Wielkość macierzy = %d\n" + ...
@@ -20,19 +21,18 @@ pause;
 
 k = 3;
 A = cell(k,1);
-A{1} = ones(n);
-A{2} = [10, 2, 12i;
-    3,  8i, 7;
-    13, 2+8i, 7+12i];
-A{3} = [1, 2, 1;
-    4, 3, 2;
-    5, 5, 3];
-trueRes = [0, 0, -1];
+A{1} = [1, 0, 0; 0, 1.001, 0; 0, 0, 1.002];
+A{2} = [2, 0, 0; 0, 2.001, 0; 0, 0, 2.002];
+A{3} = [1 + 2i, 0, 0; 0, 1.001 + 2i, 0; 0, 0, 1.002 + 2i];
+trueRes = [1, 2, 1 + 2i];
 for i = 1:k
     fprintf("Macierz:\n");
     disp(A{i});
+    fprintf("Oczekiwana wartość: ");
+    disp(trueRes(i));
+
     B = A{i};
-    [res, it, err] = P2Z42_AZY_eigenvalue(B,miu,tol,maxIt);
+    [res, it, err] = P2Z10_AZY_eigenvalue(B,miu,tol,maxIt);
     t =  sprintf("%d",abs(res - trueRes(i)));
     fprintf("==========================================================" + ...
         "===============\n");
