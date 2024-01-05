@@ -45,7 +45,7 @@ UT.UT = true;
 % pętla iteracyjna
 while it <= maxIt && err > tol
     xp = x;
-    % rozwiązanie układu równań linowych i wyliczenie x(k+1)
+    % rozwcdiązanie układu równań linowych i wyliczenie x(k+1)
     y = linsolve(L,x(P), LT);
     x = linsolve(U,y, UT);
     % unormowanie wektora x(k)
@@ -59,4 +59,4 @@ end
 
 % wyliczenie wyniku przybliżenia wartości własnej
     res = x'*A*x;
-end % function
+end% function

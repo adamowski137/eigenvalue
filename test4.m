@@ -2,7 +2,7 @@ function [] = test4()
 maxIt = 1000;
 tol = 1e-10;
 miu = 0;
-k = 10;
+k = 7;
 
 start = "Test 4\n" + ...
     "Test ten sprawdza wyniki metody dla\n" + ...

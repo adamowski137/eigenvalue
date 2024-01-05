@@ -1,5 +1,4 @@
 function [] = test1()
-n = 3;
 maxIt = 1000;
 tol = 1e-10;
 miu = 10;
@@ -35,7 +34,7 @@ A{3} =[ 2, 1, 0;
          0, 0, -9, 0;
          0, -4, 0, 0;
          49, 0, 0, 0];
-trueRes = [5, -12+1i, 4, 9, 7];
+trueRes = [5, 12+1i, 4, 9, 7];
 for i = 1:k
     fprintf("Macierz:\n");
     disp(A{i});

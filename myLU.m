@@ -1,5 +1,5 @@
 function [P, L, U] = myLU(A)
-% Projekt 2, zadanie 42
+% Projekt 2, zadanie 10
 % Adam Żyliński, 320755
 %
 % Funkcja służąca do rozkładu PA = LU.
@@ -42,7 +42,7 @@ for x = 1:m
 
         % zamieniamy rzędy w macierzy L ale ponieważ macierz jest 
         % dolno-trójkątna to interesują nas elementy poniżej diagonali 
-        L([x, pivotRow], 1:x-1) = L([pivotRow, x], 1:x-1);
+        L([x, pivotRow], 1:x - 1) = L([pivotRow, x], 1:x - 1);
     end
     
     % po wykonaniu potrzebnych zamian przechodzimy do eliminacji
@@ -54,7 +54,7 @@ for x = 1:m
     % eliminujemy elementy
     U(y, x) = 0;
     % aktualizujemy pozostałe
-    U(y, x+1:m) = U(y, x+1:m) - (pivotFactors * U(x, x+1:m));
+    U(y, x + 1:m) = U(y, x + 1:m) - (pivotFactors * U(x, x + 1:m));
     % wpisujemy współczynniki do macierzy L
     L(y, x) = pivotFactors;
 end
