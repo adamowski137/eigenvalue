@@ -1,57 +1,40 @@
 function [] = test1()
-maxIt = 1000;
-tol = 1e-10;
-miu = 10;
-
 start = "Test 1\n" + ...
-    "Test ten sprawdza poprawność metody dla kilku wybranych\n" + ...
-    "nieosobliwych macierzy.\n\n" + ...
-    "Maksymalna liczba iteracji = %d\n" + ...
-    "Maksymalny dopuszczalny błąd = %d\n" + ...
-    "Miu = %d %+di\n" + ...
-    "Jeżeli liczba iteracji jest większa niż maxIt wynik może\n" + ...
-    "być błędny\n";
-
-fprintf(start, maxIt, tol, real(miu), imag(miu));
-pause;
-
-
-k = 5;
-A = cell(k,1);
-A{1} = [2, 1, 3;
-        0, -3, 5; 
-        0, 0, 5];
-A{2} = [ 1i, 1i, 12i;
-        -1i, -1i, 1;
-        -12i, -1, 1i];
-A{3} =[ 2, 1, 0;
-        0, 3, 1;
-        0, 0, 4];
- A{4} = [9, 3, 0;
-         6, 12, 3;
-         6, 3,  12];
- A{5} = [0, 0, 0, 1;
-         0, 0, -9, 0;
-         0, -4, 0, 0;
-         49, 0, 0, 0];
-trueRes = [5, 12+1i, 4, 9, 7];
-for i = 1:k
-    fprintf("Macierz:\n");
-    disp(A{i});
-    fprintf("Oczekiwana wartość: ");
-    disp(trueRes(i));
-    [res, it, err] = P2Z10_AZY_eigenvalue(A{i},miu,tol,maxIt);
-    t =  sprintf("%d",abs(res - trueRes(i)));
-    fprintf("==========================================================" + ...
+    "Test ten sprawdza poprawność\n" + ...
+    "działania metody myUTlinsolve.\n" + ...
+    "Metoda ta znajduje rozwiązania układu równań\n" + ...
+    "Ax = b gdzie A jest macierzą górnotrójkątną\n";
+fprintf("==========================================================" + ...
         "===============\n");
-    fprintf("│wyznaczona wartość%*s│błąd wyniku%*s│błąd przybliżeń%*s" + ...
-        "│liczba iteracji%*s│\n", 4,"", 2,"", 0,"", 0, "");
-    fprintf("===========================================================" + ...
-        "==============\n");
-    fprintf("│%-+10f%-+10fi │%-13s│%-15d│%-15d│\n", real(res), imag(res), t, err, it);
-    fprintf("===========================================================" + ...
-        "==============\n\n");
+fprintf(start);
+fprintf("==========================================================" + ...
+        "===============\n");
+pause;
+k = 3;
+A = cell(k,3);
+s = 100;
+a = rand(s);
+a = a + abs(eye(s)*1000);
+A{1,1} = triu(a);
+A{1,2} = rand(s, 1);
+A{1,3} = sprintf("Losowy wektor i macierz rzeczywista\n" + ...
+    "(diagonalnie dominująca) %d x %d\n", s, s);
+A{2,1} = triu(rand(s, s) + rand(s, s)*1i);
+A{2,2} = rand(s, 1) + rand(s, 1)*1i;
+A{2,3} = sprintf("Losowy wektor i macierz zespolona %d x %d\n", s, s);
+A{3,1} = eye(s);
+A{3,2} = rand(s, 1);
+A{3,3} = sprintf("Losowy wektor i macierz jednostkowa %d x %d\n", s, s);
+for i = 1:k
+    fprintf(A{i,3});
+    fprintf("uwarunkowanie macierzy: %f\n", cond(A{i,1}));
+    fprintf("norma różnicy wektora oczekiwanego i otrzymanego:");
+    U = A{i,1}; 
+    b = A{i,1} * A{i,2};
+    resMy = myUTlinsolve(U, b);
+    resLin = A{i,2};
+    disp(norm(resMy - resLin));
     pause;
-
 end
-end% function
+end %function
+

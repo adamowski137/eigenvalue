@@ -46,8 +46,10 @@ UT.UT = true;
 while it <= maxIt && err > tol
     xp = x;
     % rozwcdiązanie układu równań linowych i wyliczenie x(k+1)
-    y = linsolve(L,x(P), LT);
-    x = linsolve(U,y, UT);
+    % y = myLTlinsolve(L, x(P));
+    % x = myUTlinsolve(U, y);
+    y = linsolve(L, x(P), LT);
+    x = linsolve(U, y, UT);
     % unormowanie wektora x(k)
     x = x/norm(x, 2);
     % obliczenie błędu
